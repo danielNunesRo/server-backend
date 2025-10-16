@@ -1,9 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { DatabaseService } from "src/database/database.service";
 import { CreateUsuarioInputDto } from "./dto/createUser.dto";
-import { LoginInputDto } from "./dto/login.dto";
-import { User } from "./entities/user.entity";
 import { LoginOutputDto } from "./dto/login.output.dto";
+import { Role } from "./role/role.enum";
 
 
 @Injectable()
@@ -28,7 +27,7 @@ export class AuthRepository {
 
   async findByEmail(email: string) {
       const sql = `
-        SELECT id, nome, email, role, senha 
+        SELECT id, nome, email, role, senha, isverified
         FROM users
         WHERE EMAIL = $1
       `;

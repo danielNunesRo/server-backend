@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsInt, IsString } from "class-validator";
+import { IsBoolean, IsEnum, IsInt, IsString } from "class-validator";
 import { Role } from "../role/role.enum";
+import { Roles } from "../decorator/roles.decorator";
 
 export class LoginOutputDto {
 
@@ -15,9 +16,14 @@ export class LoginOutputDto {
     @ApiProperty({description: 'Nome do Usuario'})
     nome: string;
 
-    @ApiProperty({description: 'Role do Usuario', example: 'ADMINISTRADOR'})
+    @IsEnum(Role)
+    @ApiProperty({description: 'Role do Usuario', example: Role})
     role: Role
 
     @ApiProperty({description: 'Senha do Usuario'})
     senha: string
+    
+    @IsBoolean()
+    @ApiProperty({description: 'O usuário é verificado', example: true})
+    isverified: boolean
 }

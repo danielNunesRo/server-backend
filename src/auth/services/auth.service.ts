@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from "@nestjs/common";
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { AuthRepository } from "./auth.repository";
 import { CreateUsuarioInputDto } from "./dto/createUser.dto";
 import * as bcrypt from 'bcrypt';
@@ -43,10 +43,15 @@ export class AuthService {
     async login (dto: LoginInputDto) {
         try {
             const user = await this.repository.findByEmail(dto.email.toUpperCase());
-
-            if(!user) {
-                throw new BadRequestException('Email do usuário não cadastrado no sistema!');
+            
+             if(!user) {
+                throw new NotFoundException('Email do usuário não cadastrado no sistema!');
             }
+
+            // if(user.isverified === false) {
+            //     throw new BadRequestException('Conta não verificada');
+            // }
+
 
             const isPasswordValid = await bcrypt.compare(dto.senha,user.senha);
             
