@@ -13,6 +13,11 @@ export class AuthService {
     ) {}
 
         async createUsuario(dto: CreateUsuarioInputDto) {
+            const existingUser = await this.repository.findByEmail(dto.email.toUpperCase());
+            if(existingUser) {
+                throw new BadRequestException('Email de usuário já cadastrado no sistema');
+            }
+            
             const hashedPassword = await bcrypt.hash(dto.senha, 10);
             const nomeUpper = dto.nome.toUpperCase();
             const emailUpper = dto.email.toUpperCase();
