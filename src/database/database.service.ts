@@ -9,10 +9,9 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
         try {
             this.pool = new Pool({
                 ssl: 
-                process.env.NODE_ENV === 'production' ?
                 {
                     rejectUnauthorized: false
-                }: false,
+                },
                 user: process.env.POSTGRES_USER,
                 host: process.env.POSTGRES_HOST,
                 database: process.env.POSTGRES_DB,
